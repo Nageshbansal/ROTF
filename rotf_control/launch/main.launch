@@ -2,7 +2,7 @@
 <launch>
     <arg name="world" default="empty"/> 
     <arg name="paused" default="false"/>
-    <arg name="use_sim_time" default="true"/>
+    <arg name="use_sim_time" default="false"/>
     <arg name="gui" default="true"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
@@ -32,7 +32,7 @@
 
 
   <!-- Spawn the robot into Gazebo -->
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find rotf_control)/src/models/diffdrive/model.sdf -sdf -model diffdrive" />
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find rotf_control)/models/diffdrive/model.sdf -sdf -model diffdrive" />
 
 </launch>
 
