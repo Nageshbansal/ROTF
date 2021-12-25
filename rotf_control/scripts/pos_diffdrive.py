@@ -14,7 +14,7 @@ w_z = 0
 err = 0.0
 
 tim = 0.0
-kp , kd ,ki = 2 , 0.0 , 0.0 
+kp_x , kp_y ,kp_z = 2 , 1.0 , 1.0 
 prev_time = 0.0 
 dt = 0.0 
 
@@ -38,18 +38,34 @@ def cal_vel(msg):
   
     
 
-def pid(v_x,v_y):
-   global err
-   corr = 0.0
+def pid(v_x,v_y,w_z):
+   global err_x
+   global err_y
+   global err_z
+   corr_x = 0.0
+   corr_y=0.0
+   corr_z=0.0
    global tim
    tim = rospy.Time.now()
-   err = v_x - 0.1
-   prev_error =0.0
-   d_error = err - prev_error
+   err_x = v_x - 0.1
+   err_y=v_y
+   err_z=w_z
+   
+   prev_error_x =0.0
+   prev_error_y=0.0
+   prev_error_z=0.0
+   #d_error_x = err_x - prev_error_x
+   #d_error_y=err_y-prev_error_y
+   #d_error_z=err_z-prev_error_z
   
-   corr = kp*(err) 
-   prev_error = err
-   return (corr)
+   corr_x = kp_x*(err_x) 
+   corr_y=kp_y*(err_y)
+   corr_z=kp_z*(err_z)
+   correction=[corr_x,corr_y,corr_z]
+   prev_error_x= err_x
+   prev_error_y=err_y
+   prev_error_z=err_z
+   return (correction)
 
 
 rospy.init_node('pos_diffdrive')
@@ -78,8 +94,10 @@ while not rospy.is_shutdown():
     else:
         # move.linear.x =(x_goal-x)
         # move.linear.y = 0
-        corr = pid(v_x,v_y)
-        move.linear.x =corr*-10
+        corr = pid(v_x,v_y,w_z)
+        move.linear.x =corr[0]*(-10)
+        move.linear.y=corr[1]*(-10)
+        move.angular.z=corr[2]*(0.01)
         move.linear.y =0.0
         print(move.linear.x)
 
