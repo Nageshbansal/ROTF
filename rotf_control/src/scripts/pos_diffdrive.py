@@ -14,7 +14,7 @@ w_z = 0
 err = 0.0
 
 tim = 0.0
-kp , kd ,ki = 2 , 0.0 , 0.0 
+kp , kd ,ki = 2.5 , 0.0 , 0.0 
 prev_time = 0.0 
 dt = 0.0 
 
@@ -35,7 +35,7 @@ def cal_vel(msg):
     v_x = msg.twist.twist.linear.x
     v_y = msg.twist.twist.linear.y
     w_z =  msg.twist.twist.angular.z
-  
+    # print(v_x,v_y,w_z)
     
 
 def pid(v_x,v_y):
@@ -43,13 +43,16 @@ def pid(v_x,v_y):
    corr = 0.0
    global tim
    tim = rospy.Time.now()
-   err = v_x - 0.1
-   prev_error =0.0
-   d_error = err - prev_error
+   err_1 = v_x - 0.1
+   err_2 =  v_y - 0.0 
+   prev_error_1 =0.0
+   prev_error_2 =0.0
+
   
-   corr = kp*(err) 
+   corr_1 = kp*(err_1)
+   corr_2 = kp*err_2 
    prev_error = err
-   return (corr)
+   return (corr_1,corr_2)
 
 
 rospy.init_node('pos_diffdrive')
@@ -68,6 +71,7 @@ d =5
 
 while not rospy.is_shutdown():
     x_goal=d
+    move.angular.z= 0
     if x_goal-x <= 0:
         
         move.linear.x = 0
@@ -78,12 +82,13 @@ while not rospy.is_shutdown():
     else:
         # move.linear.x =(x_goal-x)
         # move.linear.y = 0
-        corr = pid(v_x,v_y)
-        move.linear.x =corr*-10
-        move.linear.y =0.0
-        print(move.linear.x)
+        corr_1 , corr_2 = pid(v_x,v_y)
+        move.linear.x =corr_1*-10
+        move.linear.y =corr_2*-10
+       
+        # print(move.linear.x)
 
-        
+    move.angular.z = 0.0   
     pub.publish(move)
     rate.sleep()
 

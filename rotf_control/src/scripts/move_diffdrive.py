@@ -13,7 +13,7 @@ move.angular.x = 0.0
 move.angular.y = 0.0
 move.angular.z = 2.0
 
-move.linear.x = move.angular.x*(R+l/2)
+move.linear.x =(R+l/2)
 move.linear.y = move.angular.y*(R+l/2)
 # move.linear.y = 0.0
 # move.linear.z = 0.0
