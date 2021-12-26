@@ -14,7 +14,11 @@ w_z = 0
 err = 0.0
 
 tim = 0.0
+<<<<<<< HEAD:rotf_control/src/scripts/pos_diffdrive.py
 kp , kd ,ki = 2.5 , 0.0 , 0.0 
+=======
+kp_x , kp_y ,kp_z = 2 , 1.0 , 1.0 
+>>>>>>> 011e42d7bdcc9d3278b68972cb812411205b3967:rotf_control/scripts/pos_diffdrive.py
 prev_time = 0.0 
 dt = 0.0 
 
@@ -38,11 +42,16 @@ def cal_vel(msg):
     # print(v_x,v_y,w_z)
     
 
-def pid(v_x,v_y):
-   global err
-   corr = 0.0
+def pid(v_x,v_y,w_z):
+   global err_x
+   global err_y
+   global err_z
+   corr_x = 0.0
+   corr_y=0.0
+   corr_z=0.0
    global tim
    tim = rospy.Time.now()
+<<<<<<< HEAD:rotf_control/src/scripts/pos_diffdrive.py
    err_1 = v_x - 0.1
    err_2 =  v_y - 0.0 
    prev_error_1 =0.0
@@ -53,6 +62,27 @@ def pid(v_x,v_y):
    corr_2 = kp*err_2 
    prev_error = err
    return (corr_1,corr_2)
+=======
+   err_x = v_x - 0.1
+   err_y=v_y
+   err_z=w_z
+   
+   prev_error_x =0.0
+   prev_error_y=0.0
+   prev_error_z=0.0
+   #d_error_x = err_x - prev_error_x
+   #d_error_y=err_y-prev_error_y
+   #d_error_z=err_z-prev_error_z
+  
+   corr_x = kp_x*(err_x) 
+   corr_y=kp_y*(err_y)
+   corr_z=kp_z*(err_z)
+   correction=[corr_x,corr_y,corr_z]
+   prev_error_x= err_x
+   prev_error_y=err_y
+   prev_error_z=err_z
+   return (correction)
+>>>>>>> 011e42d7bdcc9d3278b68972cb812411205b3967:rotf_control/scripts/pos_diffdrive.py
 
 
 rospy.init_node('pos_diffdrive')
@@ -82,11 +112,20 @@ while not rospy.is_shutdown():
     else:
         # move.linear.x =(x_goal-x)
         # move.linear.y = 0
+<<<<<<< HEAD:rotf_control/src/scripts/pos_diffdrive.py
         corr_1 , corr_2 = pid(v_x,v_y)
         move.linear.x =corr_1*-10
         move.linear.y =corr_2*-10
        
         # print(move.linear.x)
+=======
+        corr = pid(v_x,v_y,w_z)
+        move.linear.x =corr[0]*(-10)
+        move.linear.y=corr[1]*(-10)
+        move.angular.z=corr[2]*(0.01)
+        move.linear.y =0.0
+        print(move.linear.x)
+>>>>>>> 011e42d7bdcc9d3278b68972cb812411205b3967:rotf_control/scripts/pos_diffdrive.py
 
     move.angular.z = 0.0   
     pub.publish(move)
