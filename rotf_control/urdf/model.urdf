@@ -1,85 +1,128 @@
 <?xml version="1.0"?>
-<robot name="sample_bot">
-    <link name ="base_footprint"/>
-    <link name="base_link">
-        <inertial>
-            <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0"/>
-            <mass value="10.0"/>
-            <inertia ixx="0.5" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="0.1"/>
+<robot name="diff_bot">
+    <link name="base_footprint"/>
+        <!-- <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="0.0001"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
         </inertial>
-        <visual>
-            <geometry>
-                <box size="0.4 0.2 0.1"/>
-            </geometry>
-        </visual>
-        <collision>
+        <visual name="base_footprint_visual">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <box size="0.0 0.0 0.0"/>
+                <box size="0.001 0.001 0.001"/>
             </geometry>
-        </collision>
-    </link>
-    <link name="left_wheel">
-        <inertial>
-            <origin xyz="0.1 0.13 0.1" rpy="0.0 1.5707 1.5707"/>
-        </inertial>
-        <visual>
-            <geometry>
-                <cylinder radius="0.1" length="0.05"/>
-            </geometry>
-            <material>
-                <color rgba="1.0 0.0 0.0 1.0"/>
-            </material>
-        </visual>
-        <collision>
-            <geometry>
-                <cylinder radius="0.1" length="0.05"/>
-            </geometry>
-        </collision>
-    </link>
-    <link name="right_wheel">
-        <ine-rtial>
-            <origin xyz="0.1 -0.13 0.1" rpy="0.0 1.5707 1.5707"/>
-        </inertial>
-        <visual>
-            <geometry>
-                <cylinder radius="0.1" length="0.05"/>
-            </geometry>
-            <material>
-                <color rgba="1.0 0.0 0.0 1.0"/>
-            </material>
-        </visual>
-        <collision>
-            <geometry>
-                <cylinder radius="0.1" length="0.05"/>
-            </geometry>
-        </collision>
-    </link>
-    <link name="laser">
-        <inertial>
-            <origin xyz="0.0 0.0 0.0045" rpy="0.0 0.0 0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <geometry>
-                <cylinder radius="0.001" length="0.1"/>
-            </geometry>
-            <material>
-                <color rgba="1.0 0.0 0.0 1.0"/>
-            </material>
         </visual>
     </link>
+    <gazebo reference="base_footprint">
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo> -->
     <joint name="base_footprint_joint" type="fixed">
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0"/>
         <parent link="base_footprint"/>
         <child link="base_link"/>
-        <axis xyz="0.0 0.0 0.0"/>
     </joint>
-    <joint name="left_wheel_joint" type="revolute">
-        <origin xyz="0.0 0.0 -0.03" rpy="0.0 0.0 0.0"/>
+    <link name="base_link">
+        <pose>0 0 0.1 0 0 0</pose>
+        <inertial>
+            <mass value="50"/>
+            <origin rpy="0 0 0" xyz="0 0 0.1"/>
+            <inertia ixx="0.395416666667" ixy="0" ixz="0" iyy="1.06208333333" iyz="0" izz="1.06208333333"/>
+        </inertial>
+        <visual name="base_link_visual" >
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size=".5 .3 0.07"/>
+            </geometry>
+        </visual> 
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size=".5 .3 0.07"/>
+            </geometry>
+        </collision>
+        <collision name="caster_front_collision">
+            <origin rpy=" 0 0 0" xyz="0.35 0.0 -0.05"/>
+            <geometry>
+                <sphere radius="0.05"/>
+            </geometry>
+            <surface>
+                <friction>
+                <ode>
+                    <mu>0</mu>
+                    <mu2>0</mu2>
+                    <slip1>1.0</slip1>
+                    <slip2>1.0</slip2>
+                </ode>
+                </friction>
+            </surface>
+        </collision>
+        <visual name="caster_front_visual">
+            <origin rpy=" 0 0 0" xyz="0.2 0 -0.05"/>
+            <geometry>
+                <sphere radius="0.05"/>
+            </geometry>
+        </visual>  
+    </link>
+    <gazebo reference="base_link">
+    		<material>Gazebo/White</material>
+            <turnGravityOff>false</turnGravityOff>
+  	</gazebo>
+    <!-- <link name="caster_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0.2 0.0 -0.05"/>
+            <geometry>
+                <sphere radius="0.05"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.05"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.35 0.0 -0.05"/>
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+  </link>
+  <joint name="caster_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_link"/>
+    <origin rpy="-1.57079632679 0 0" xyz="0.2 0.0 -0.05"/>
+  </joint>
+  <gazebo reference="caster_link">
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo> -->
+    <link name="left_wheel">
+        <inertial>
+            <mass value="2.5"/>
+            <origin xyz="-0.1 0.0 0.0" rpy="0.0 0 0"/>
+            <inertia ixx="0.00108333333333" ixy="0" ixz="0" iyy="0.00108333333333" iyz="0" izz="0.002"/>
+        </inertial>
+        <visual name="left_wheel_visual" >
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.04"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision name="link_left_wheel_collision">
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.04"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="left_wheel_joint" type="continuous">
+        <origin xyz="-0.15 -0.15 0.0" rpy="0.0 0.0 0.0"/>
         <parent link="base_link"/>
         <child link="left_wheel"/>
         <axis xyz="0.0 1.0 0.0"/>
+        <limit effort="100.0" velocity="100.0"/>
+        <joint_properties damping="1.0" friction="1.0"/>
     </joint>
     <transmission name="tran_left">
         <type>transmission_interface/SimpleTransmission</type>
@@ -91,11 +134,44 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
-    <joint name="right_wheel_joint" type="revolute">
-        <origin xyz="0.0 0.0 0.03" rpy="0.0 0.0 0.0"/>
+     <gazebo reference="left_wheel">
+        <mu1 value="1.0"/>
+        <mu2 value="1.0"/>
+        <kp value="1.0"/>
+        <kd value="1.0"/>
+        <fdir1 value="1 0 0"/>
+        <material>Gazebo/Grey</material>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+    <link name="right_wheel">
+        <inertial>
+            <mass value="2.5"/>
+            <origin xyz="-0.1 0.0 0.0" rpy="0.0 0 0"/>
+            <inertia ixx="0.00108333333333" ixy="0" ixz="0" iyy="0.00108333333333" iyz="0" izz="0.002"/>
+        </inertial>
+        <visual name="right_wheel_visual" >
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.04"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision name="link_right_wheel_collision">
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.04"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="right_wheel_joint" type="continuous">
+        <origin xyz="-0.15 0.15 0.0" rpy="0.0 0.0 0.0"/>
         <parent link="base_link"/>
         <child link="right_wheel"/>
         <axis xyz="0.0 1.0 0.0"/>
+        <limit effort="100.0" velocity="100.0"/>
+        <joint_properties damping="1.0" friction="1.0"/>
     </joint>
     <transmission name="tran_right">
         <type>transmission_interface/SimpleTransmission</type>
@@ -107,10 +183,112 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
+     <gazebo reference="right_wheel">
+        <mu1 value="1.0"/>
+        <mu2 value="1.0"/>
+        <kp value="1.0"/>
+        <kd value="1.0"/>
+        <fdir1 value="1 0 0"/>
+        <material>Gazebo/Grey</material>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+    <!-- <link name="caster_back_link">
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0.02 0.02 0 "/>
+            <geometry>
+                <sphere radius="0.025"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.025"/>
+            </geometry>
+            <origin rpy="1.57079632679 0 0" xyz="0 0.02 0 "/>
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+    </link>
+    <joint name="caster_back_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_back_link"/>
+        <origin rpy="-1.57079632679 0 0" xyz="-0.135 0.0 0.009"/>
+    </joint>
+    <gazebo reference="caster_back_link">
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo> -->
+    <!-- <link name="right_wheel">
+        <inertial>
+            <mass value="2.5"/>
+            <origin xyz="-0.2 0.0 0.0" rpy="0.0 0 0"/>
+            <inertia ixx="0.00108333333333" ixy="0" ixz="0" iyy="0.00108333333333" iyz="0" izz="0.002"/>
+        </inertial>
+        <visual name="right_wheel_visual" >
+            <origin xyz="-0.2 0.0 0.0" rpy="1.5707 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.04"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision name="link_right_wheel_collision">
+            <origin xyz="-0.2 0.0 0.0" rpy="1.5707 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.04"/>
+            </geometry>
+        </collision>
+    </link>
+    <gazebo reference="right_wheel">
+        <mu1 value="1.0"/>
+        <mu2 value="1.0"/>
+        <kp value="1.0"/>
+        <kd value="1.0"/>
+        <fdir1 value="1 0 0"/>
+        <material>Gazebo/Grey</material>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+    <joint name="right_wheel_joint" type="continuous">
+        <origin xyz="0.0 0.15 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="right_wheel"/>
+        <axis xyz="0.0 1.0 0.0"/>
+        <limit effort="100.0" velocity="100.0"/>
+        <joint_properties damping="0.0" friction="0.0"/>
+    </joint>
+    <transmission name="tran_right">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_wheel_joint">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor_right">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission> -->
+    <link name="laser">
+        <inertial>
+            <mass value='0.2'/>
+            <origin xyz="0.0 0.0 0.0105" rpy="0.0 0.0 0.0"/>
+      	    <inertia ixx="0.0395416666667" ixy="0" ixz="0" iyy="0.106208333333" iyz="0" izz="0.106208333333"/>
+        </inertial>
+        <visual name="laser_visual" >
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.001" length="0.1"/>
+            </geometry>
+            <material name="white_2">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+    </link>
+    
     <joint name="laser_joint" type="fixed">
 	    <parent link = "base_link"/>
 	    <child link = "laser"/>
-	    <origin xyz="0 0 0.070" rpy="0 0 0"/>
+	    <origin xyz="0 0 0.080" rpy="0 0 0"/>
     </joint>
     
     <gazebo reference="laser">
@@ -139,7 +317,7 @@
 				</noise>
 			</ray>
 			<plugin name="gazebo_ros_laser_scan" filename="libgazebo_ros_laser.so">
-				<topicName>/sample_bot/laser/scan</topicName>
+				<topicName>/diff_bot/laser/scan</topicName>
 				<frameName>laser</frameName>
 			</plugin>
 		</sensor>
@@ -152,35 +330,36 @@
 	      <serviceName>imu_service</serviceName>
 	      <gaussianNoise>0.0</gaussianNoise>
 	      <updateRate>20.0</updateRate>
+          <frameName>base_link</frameName>
 	    </plugin>
   	</gazebo>
-    <gazebo reference="base_link">
-    		<material>Gazebo/White</material>
-  	</gazebo>
+    
     <gazebo>
 		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-		    <robotNamespace>/sample_bot</robotNamespace>
+		    <robotNamespace>/diff_bot</robotNamespace>
 		</plugin>
 	</gazebo>
     <gazebo>
     <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller_front">
       <rosDebugLevel>Debug</rosDebugLevel>
       <publishWheelTF>True</publishWheelTF>
-      <publishTf>1</publishTf>
+      <publishTf>true</publishTf>
       <publishWheelJointState>true</publishWheelJointState>
       <alwaysOn>true</alwaysOn>
-      <updateRate>100.0</updateRate>
-      <leftJoint>left_joint</leftJoint>
-      <rightJoint>right_joint</rightJoint>
+      <updateRate>20.0</updateRate>
+      <leftJoint>left_wheel_joint</leftJoint>
+      <rightJoint>right_wheel_joint</rightJoint>
       <wheelSeparation>0.3</wheelSeparation>
-      <wheelDiameter>0.08</wheelDiameter>
-      <broadcastTF>1</broadcastTF>
-      <wheelTorque>30</wheelTorque>
+      <wheelDiameter>0.2</wheelDiameter>
+      <wheelTorque>10</wheelTorque>
       <wheelAcceleration>1.8</wheelAcceleration>
       <commandTopic>cmd_vel</commandTopic>
+      <odometrySource>world</odometrySource>
+      <broadcastTF>1</broadcastTF>
       <odometryFrame>odom</odometryFrame>
       <odometryTopic>odom</odometryTopic>
-      <robotBaseFrame>base_link</robotBaseFrame>
+      <publishOdom>True</publishOdom>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
     </plugin>
   </gazebo>
 </robot>
