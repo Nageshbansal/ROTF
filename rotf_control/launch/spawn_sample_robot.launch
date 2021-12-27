@@ -7,15 +7,16 @@
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
     <arg name="recording" value="false"/>
-    <arg name="debug" value="true"/>
+
+    <arg name="debug" value="false"/>
   </include>	
   <param name="robot_description" textfile="$(find rotf_control)/urdf/model.urdf"/>
   <arg name="x" default="0"/>
   <arg name="y" default="0"/>
   <arg name="z" default="0"/>
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model sample_bot -param robot_description"/>
+
   <rosparam file="$(find rotf_control)/config/diff_drive.yaml" command="load"/>
   <node name="controller_spawner"  pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="left_wheel_controller
     right_wheel_controller"/>
-
 </launch>
