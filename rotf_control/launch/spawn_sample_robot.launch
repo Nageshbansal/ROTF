@@ -17,7 +17,7 @@
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model sample_bot -param robot_description"/>
 
   <rosparam file="$(find rotf_control)/config/diff_drive.yaml" command="load"/>
-  <node name="controller_spawner"  pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="left_wheel_controller
+  <node name="controller_spawner"  pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="left_wheel_controller"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
   <node name="rviz" pkg="rviz" type="rviz" args=""/>
