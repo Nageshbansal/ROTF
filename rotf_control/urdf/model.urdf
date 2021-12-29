@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="diff_bot">
-    <link name="base_footprint">
+    <!-- <link name="base_footprint">
         <inertial>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <mass value="0.0001"/>
@@ -21,12 +21,12 @@
         <parent link="base_footprint"/>
         <child link="base_link"/>
         <update_rate>20</update_rate>
-    </joint>
+    </joint> -->
     <link name="base_link">
-        <pose>0 0 0.1 0 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <inertial>
             <mass value="50"/>
-            <origin rpy="0 0 0" xyz="0 0 0.1"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
             <inertia ixx="0.395416666667" ixy="0" ixz="0" iyy="1.06208333333" iyz="0" izz="1.06208333333"/>
         </inertial>
         <visual name="base_link_visual" >
@@ -292,10 +292,10 @@
 	    <parent link = "base_link"/>
 	    <child link = "laser"/>
 	    <origin xyz="0 0 0.080" rpy="0 0 0"/>
-        <update_rate>20</update_rate>
     </joint>
     
     <gazebo reference="laser">
+        <!-- <publishTf>true</publishTf> -->
 		<sensor type="ray" name="laser sensor">
 			<pose> 0 0 0 0 0 0 </pose>
 			<visualize>true</visualize>
@@ -363,7 +363,7 @@
       <odometryFrame>odom</odometryFrame>
       <odometryTopic>odom</odometryTopic>
       <publishOdom>True</publishOdom>
-      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <robotBaseFrame>base_link</robotBaseFrame>
     </plugin>
   </gazebo>
 </robot>
