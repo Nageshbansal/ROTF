@@ -2,12 +2,18 @@
 <launch>
     <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="worlds/empty.world"/> 
+    <arg name="world_name" value="$(find rotf_control)/world/myOffice.world"/> 
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
     <arg name="recording" value="false"/>
-
+    <arg name="debug" value="true"/>
+  </include>	
+  <param name="robot_description" textfile="$(find rotf_control)/urdf/model.urdf"/>
+  <arg name="x" default="-0.3"/>
+  <arg name="y" default="0.3"/>
+  <arg name="z" default="0.00001"/>
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"  output="screen" args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model sample_bot -param robot_description"/>
     <arg name="debug" value="false"/>
   </include>	
   <param name="robot_description" textfile="$(find rotf_control)/urdf/model.urdf"/>
@@ -15,11 +21,12 @@
   <arg name="y" default="0"/>
   <arg name="z" default="0"/>
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model sample_bot -param robot_description"/>
-
   <rosparam file="$(find rotf_control)/config/diff_drive.yaml" command="load"/>
   <node name="controller_spawner"  pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="left_wheel_controller"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+  <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0 0 0 0 0 0 base_link laser 20" /> -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0 0 0 0 base_footprint base_link 20" /> -->
   <node name="rviz" pkg="rviz" type="rviz" args=""/>
 
 </launch>
