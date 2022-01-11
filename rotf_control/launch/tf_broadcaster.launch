@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0.1 0 0 0 base_footprint base_link 20" />
-    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0 0 0.08 0 0 0 base_link laser 20" />
-</launch>
